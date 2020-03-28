@@ -2,6 +2,7 @@ package redis
 
 import (
 	"context"
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"math/rand"
@@ -83,6 +84,8 @@ type RingOptions struct {
 	PoolTimeout        time.Duration
 	IdleTimeout        time.Duration
 	IdleCheckFrequency time.Duration
+	// TLS Config to use. When set TLS will be negotiated.
+	TLSConfig *tls.Config
 }
 
 func (opt *RingOptions) init() {
@@ -125,6 +128,7 @@ func (opt *RingOptions) clientOptions(shard string) *Options {
 		PoolTimeout:        opt.PoolTimeout,
 		IdleTimeout:        opt.IdleTimeout,
 		IdleCheckFrequency: opt.IdleCheckFrequency,
+		TLSConfig:          opt.TLSConfig,
 	}
 }
 
